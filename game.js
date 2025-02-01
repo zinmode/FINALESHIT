@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function displayCategoryScores() {
+    console.log('Oppdaterer poengsummer for kategorier');
     multiplikasjonScore.textContent = localStorage.getItem('multiplikasjonScore') || 0;
     addisjonScore.textContent = localStorage.getItem('addisjonScore') || 0;
     subtraksjonScore.textContent = localStorage.getItem('subtraksjonScore') || 0;
@@ -138,6 +139,7 @@ const stressMessages = [
 startButton.addEventListener('click', () => {
     const username = usernameInput.value.trim();
     selectedOperation = operationSelect.value;
+    console.log(`Valgt operasjon: ${selectedOperation}`);
     if (username) {
         usernameDisplay.textContent = username;
         loginSection.style.display = 'none';
@@ -223,13 +225,15 @@ function endGame() {
     
     if (score > bestScore) {
         bestScore = score;
-localStorage.setItem('bestScore', bestScore);
+        localStorage.setItem('bestScore', bestScore);
+        console.log(`Ny beste poengsum lagret: ${bestScore}`);
     }
 
     // Oppdater poengsummen for den valgte operasjonen
     const currentScore = localStorage.getItem(`${selectedOperation}Score`) || 0;
     if (score > currentScore) {
         localStorage.setItem(`${selectedOperation}Score`, score);
+        console.log(`Ny poengsum for ${selectedOperation} lagret: ${score}`);
     }
 
     displayCategoryScores();
