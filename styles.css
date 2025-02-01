@@ -48,6 +48,7 @@ input {
 #timer {
     font-size: 24px;
     margin: 20px;
+    position: relative;
 }
 
 #questionContainer {
@@ -69,7 +70,8 @@ input {
     border-radius: 10px;
     position: absolute;
     top: -50px;
-    left: 100px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 200px;
     text-align: center;
     font-size: 18px;
@@ -121,4 +123,20 @@ input {
 
 #restartButtonInGame:hover {
     background-color: #ff9900;
+}
+
+#scoreTable {
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#scoreTable th, #scoreTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#scoreTable th {
+    background-color: #ffcc00;
+    color: black;
 }
