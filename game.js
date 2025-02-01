@@ -20,7 +20,7 @@ const restartButton = document.getElementById('restartButton');
 const restartButtonInGame = document.getElementById('restartButtonInGame');
 
 let score = 0;
-let timeLeft = 30; // Endret til 30 sekunder
+let timeLeft = 20; // Endret til 20 sekunder
 let timer;
 let currentQuestion;
 let bestScore = localStorage.getItem('bestScore') || 0;
@@ -86,7 +86,7 @@ const complimentsAndInsults = [
 ];
 
 const stressMessages = [
-    { threshold: 20, message: "Skynd deg! Tiden renner ut!" },
+    { threshold: 15, message: "Skynd deg! Tiden renner ut!" },
     { threshold: 10, message: "Bare 10 sekunder igjen! Raskere!" },
     { threshold: 5, message: "5 sekunder! Fort, fort!" }
 ];
@@ -110,7 +110,7 @@ restartButtonInGame.addEventListener('click', () => {
 
 function startGame() {
     score = 0;
-    timeLeft = 30; // Endret til 30 sekunder
+    timeLeft = 20; // Endret til 20 sekunder
     timerDisplay.textContent = timeLeft;
     scoreDisplay.textContent = `Poeng: ${score}`;
     questions = generateQuestions(selectedOperation, Math.floor(score / 50)); // Øker vanskelighetsgraden basert på poengsum
@@ -145,8 +145,8 @@ function showNextQuestion() {
     questionDisplay.textContent = currentQuestion.question;
     answerButtons.forEach((button, index) => {
         button.textContent = currentQuestion.answers[index];
-        button.style.top = `${Math.random() * 80 + 10}%`;
-        button.style.left = `${Math.random() * 80 + 10}%`;
+        button.style.top = `${Math.random() * 60 + 20}%`; // Justerer posisjoneringen for å unngå overlapping
+        button.style.left = `${Math.random() * 60 + 20}%`; // Justerer posisjoneringen for å unngå overlapping
         button.onclick = () => checkAnswer(currentQuestion.answers[index]);
     });
 }
