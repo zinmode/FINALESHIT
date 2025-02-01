@@ -19,6 +19,9 @@ const wrongSound = document.getElementById('wrongSound');
 const restartButton = document.getElementById('restartButton');
 const restartButtonInGame = document.getElementById('restartButtonInGame');
 
+const multiplikasjonScore = document.getElementById('multiplikasjonScore');
+const addisjonScore = document.getElementById('addisjonScore');
+const subtraksjonScore = document.getElementById('subtraksjonScore
 let score = 0;
 let timeLeft = 20; // Endret til 20 sekunder
 let timer;
