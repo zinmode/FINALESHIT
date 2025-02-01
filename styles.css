@@ -91,6 +91,8 @@ input {
 #score {
     font-size: 24px;
     margin: 20px;
+    position: relative; /* Legger til relativ posisjonering */
+    z-index: 1; /* Sørger for at poengsummen vises over svaralternativene */
 }
 
 #bestScoreDisplay {
@@ -103,6 +105,8 @@ input {
     font-size: 24px;
     margin: 20px;
     color: red;
+    position: relative; /* Legger til relativ posisjonering */
+    z-index: 1; /* Sørger for at tilbakemeldingen vises over andre elementer */
 }
 
 #restartButtonInGame {
