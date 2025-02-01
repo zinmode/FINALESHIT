@@ -1,3 +1,17 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Hent og vis beste poengsum ved siden lasting
+    bestScoreDisplay.textContent = `Beste poengsum: ${bestScore}`;
+    displayCategoryScores();
+});
+
+function displayCategoryScores() {
+    multiplikasjonScore.textContent = localStorage.getItem('multiplikasjonScore') || 0;
+    addisjonScore.textContent = localStorage.getItem('addisjonScore') || 0;
+    subtraksjonScore.textContent = localStorage.getItem('subtraksjonScore') || 0;
+    divisjonScore.textContent = localStorage.getItem('divisjonScore') || 0;
+    blandingScore.textContent = localStorage.getItem('blandingScore') || 0;
+}
+
 const startButton = document.getElementById('startButton');
 const usernameInput = document.getElementById('usernameInput');
 const operationSelect = document.getElementById('operationSelect');
@@ -22,6 +36,9 @@ const restartButtonInGame = document.getElementById('restartButtonInGame');
 const multiplikasjonScore = document.getElementById('multiplikasjonScore');
 const addisjonScore = document.getElementById('addisjonScore');
 const subtraksjonScore = document.getElementById('subtraksjonScore');
+const divisjonScore = document.getElementById('divisjonScore');
+const blandingScore = document.getElementById('blandingScore');
+
 let score = 0;
 let timeLeft = 20; // Endret til 20 sekunder
 let timer;
@@ -54,22 +71,42 @@ function generateQuestions(operation, difficulty) {
                 case 'blanding':
                     const ops = ['+', '-', '*', '/'];
                     const op = ops[Math.floor(Math.random() * ops.length)];
-                    question = `${i} ${op} ${j}`;
-                    correctAnswer = eval(question);
+                    switch (op) {
+                        case '+':
+                            question = `${i} + ${j}`;
+                            correctAnswer = i + j;
+                            break;
+                        case '-':
+                            question = `${i} - ${j}`;
+                            correctAnswer = i - j;
+                            break;
+                        case '*':
+                            question = `${i} * ${j}`;
+                            correctAnswer = i * j;
+                            break;
+                        case '/':
+                            if (j !== 0) {
+                                question = `${i * j} / ${j}`;
+                                correctAnswer = i;
+                            }
+                            break;
+                    }
                     break;
                 default:
                     question = `${i} x ${j}`;
                     correctAnswer = i * j;
             }
-            const answers = [correctAnswer];
-            while (answers.length < 4) {
-                const wrongAnswer = Math.floor(Math.random() * (maxNumber * maxNumber)) + 1;
-                if (!answers.includes(wrongAnswer)) {
-                    answers.push(wrongAnswer);
+            if (question) {
+                const answers = [correctAnswer];
+                while (answers.length < 4) {
+                    const wrongAnswer = Math.floor(Math.random() * (maxNumber * maxNumber)) + 1;
+                    if (!answers.includes(wrongAnswer)) {
+                        answers.push(wrongAnswer);
+                    }
                 }
+                answers.sort(() => Math.random() - 0.5);
+                questions.push({ question, answers, correct: correctAnswer });
             }
-            answers.sort(() => Math.random() - 0.5);
-            questions.push({ question, answers, correct: correctAnswer });
         }
     }
     return questions;
@@ -81,7 +118,7 @@ const complimentsAndInsults = [
     { threshold: 70, message: "Flott jobb! Du kan virkelig dette!" },
     { threshold: 60, message: "God innsats! Fortsett å øve!" },
     { threshold: 50, message: "Ikke verst, men du kan gjøre det bedre!" },
-    { threshold: 40, message: "Du må jobbe med matteferdighetene dine." },
+    { threshold: 40, message: "Du må jobbe med matteferdigheten dine." },
     { threshold: 30, message: "Kom igjen, du kan gjøre det bedre enn det!" },
     { threshold: 20, message: "Det var ganske dårlig. Prøv hardere neste gang." },
     { threshold: 10, message: "Prøver du i det hele tatt? Det var forferdelig." },
@@ -167,7 +204,6 @@ function checkAnswer(answer) {
         wrongSound.play();
     }
     scoreDisplay.textContent = `Poeng: ${score}`;
-    questions = generateQuestions(selectedOperation, Math.floor(score / 50)); // Oppdaterer spørsmålene basert på ny poengsum
     showNextQuestion();
 }
 
@@ -180,6 +216,15 @@ function endGame() {
         bestScore = score;
         localStorage.setItem('bestScore', bestScore);
     }
+
+    // Lagre poengsum for valgt operasjon
+    const categoryScoreKey = `${selectedOperation}Score`;
+    const categoryBestScore = localStorage.getItem(categoryScoreKey) || 0;
+    if (score > categoryBestScore) {
+        localStorage.setItem(categoryScoreKey, score);
+         }
+
+    displayCategoryScores();
 
     let resultMessageText;
     
