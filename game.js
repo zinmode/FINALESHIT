@@ -9,6 +9,7 @@ const questionDisplay = document.getElementById('question');
 const speechBubble = document.getElementById('speechBubble');
 const answerButtons = document.querySelectorAll('.answerButton');
 const scoreDisplay = document.getElementById('score');
+const bestScoreDisplay = document.getElementById('bestScoreDisplay');
 const resultSection = document.getElementById('resultSection');
 const resultMessage = document.getElementById('resultMessage');
 const finalScore = document.getElementById('finalScore');
@@ -16,6 +17,7 @@ const feedback = document.getElementById('feedback');
 const correctSound = document.getElementById('correctSound');
 const wrongSound = document.getElementById('wrongSound');
 const restartButton = document.getElementById('restartButton');
+const restartButtonInGame = document.getElementById('restartButtonInGame');
 
 let score = 0;
 let timeLeft = 30; // Endret til 30 sekunder
@@ -25,10 +27,11 @@ let bestScore = localStorage.getItem('bestScore') || 0;
 
 let selectedOperation = 'multiplikasjon'; // Standardvalg
 
-function generateQuestions(operation) {
+function generateQuestions(operation, difficulty) {
     const questions = [];
-    for (let i = 1; i <= 10; i++) {
-        for (let j = 1; j <= 10; j++) {
+    const maxNumber = 10 + difficulty * 5; // Øker vanskelighetsgraden ved å øke maksnummeret
+    for (let i = 1; i <= maxNumber; i++) {
+        for (let j = 1; j <= maxNumber; j++) {
             let question, correctAnswer;
             switch (operation) {
                 case 'addisjon':
@@ -57,7 +60,7 @@ function generateQuestions(operation) {
             }
             const answers = [correctAnswer];
             while (answers.length < 4) {
-                const wrongAnswer = Math.floor(Math.random() * 100) + 1;
+                const wrongAnswer = Math.floor(Math.random() * (maxNumber * maxNumber)) + 1;
                 if (!answers.includes(wrongAnswer)) {
                     answers.push(wrongAnswer);
                 }
@@ -68,8 +71,6 @@ function generateQuestions(operation) {
     }
     return questions;
 }
-
-let questions = generateQuestions(selectedOperation);
 
 const complimentsAndInsults = [
     { threshold: 90, message: "Fantastisk! Du er et mattegeni!" },
@@ -97,8 +98,14 @@ startButton.addEventListener('click', () => {
         usernameDisplay.textContent = username;
         loginSection.style.display = 'none';
         gameSection.style.display = 'block';
+        bestScoreDisplay.textContent = `Beste poengsum: ${bestScore}`;
         startGame();
     }
+});
+
+restartButtonInGame.addEventListener('click', () => {
+    clearInterval(timer);
+    startGame();
 });
 
 function startGame() {
@@ -106,7 +113,7 @@ function startGame() {
     timeLeft = 30; // Endret til 30 sekunder
     timerDisplay.textContent = timeLeft;
     scoreDisplay.textContent = `Poeng: ${score}`;
-    questions = generateQuestions(selectedOperation);
+    questions = generateQuestions(selectedOperation, Math.floor(score / 50)); // Øker vanskelighetsgraden basert på poengsum
     timer = setInterval(updateTimer, 1000);
     showNextQuestion();
 }
@@ -124,65 +131,4 @@ function updateTimer() {
 function updateSpeechBubble() {
     speechBubble.style.display = 'block';
     let message = "";
-    for (let i = 0; i < stressMessages.length; i++) {
-        if (timeLeft <= stressMessages[i].threshold) {
-            message = stressMessages[i].message;
-            break;
-        }
-    }
-    speechBubble.textContent = message;
-}
-
-function showNextQuestion() {
-    currentQuestion = questions[Math.floor(Math.random() * questions.length)];
-    questionDisplay.textContent = currentQuestion.question;
-    answerButtons.forEach((button, index) => {
-        button.textContent = currentQuestion.answers[index];
-        button.style.top = `${Math.random() * 80 + 10}%`;
-        button.style.left = `${Math.random() * 80 + 10}%`;
-        button.onclick = () => checkAnswer(currentQuestion.answers[index]);
-    });
-}
-
-function checkAnswer(answer) {
-    if (answer === currentQuestion.correct) {
-        score += 10;
-        feedback.textContent = "Riktig!";
-        feedback.style.color = "green";
-        correctSound.play();
-    } else {
-        score -= 5;
-        feedback.textContent = "Feil!";
-        feedback.style.color = "red";
-        wrongSound.play();
-    }
-    scoreDisplay.textContent = `Poeng: ${score}`;
-    showNextQuestion();
-}
-
-function endGame() {
-    gameSection.style.display = 'none';
-    resultSection.style.display = 'block';
-    finalScore.textContent = `Din endelige poengsum er: ${score}`;
-    
-    if (score > bestScore) {
-        bestScore = score;
-        localStorage.setItem('bestScore', bestScore);
-    }
-
-    let resultMessageText;
-    
-    for (let i = 0; i < complimentsAndInsults.length; i++) {
-        if (score >= complimentsAndInsults[i].threshold) {
-            resultMessageText = complimentsAndInsults[i].message;
-            break;
-        }
-    }
-    resultMessage.textContent = resultMessageText;
-}
-
-restartButton.addEventListener('click', () => {
-    resultSection.style.display = 'none';
-    loginSection.style.display = 'block';
-    alert(`Din beste poengsum er: ${bestScore}`);
-});
+    for (let i =
