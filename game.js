@@ -222,13 +222,19 @@ function endGame() {
     finalScore.textContent = `Din endelige poengsum er: ${score}`;
     
     if (score > bestScore) {
-        bestScore = score
-           }
+        bestScore = score;
+localStorage.setItem('bestScore', bestScore);
+    }
+
+    // Oppdater poengsummen for den valgte operasjonen
+    const currentScore = localStorage.getItem(`${selectedOperation}Score`) || 0;
+    if (score > currentScore) {
+        localStorage.setItem(`${selectedOperation}Score`, score);
+    }
 
     displayCategoryScores();
 
     let resultMessageText;
-    
     for (let i = 0; i < complimentsAndInsults.length; i++) {
         if (score >= complimentsAndInsults[i].threshold) {
             resultMessageText = complimentsAndInsults[i].message;
