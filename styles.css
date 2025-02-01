@@ -82,6 +82,8 @@ input {
     padding: 10px;
     font-size: 18px;
     position: absolute;
+    max-width: 200px; /* Legger til en maksimal bredde */
+    white-space: nowrap; /* Forhindrer tekstbryting */
 }
 
 #score {
