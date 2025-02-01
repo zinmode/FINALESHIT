@@ -1,141 +1,54 @@
 body {
-    background-color: #000;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    color: white;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
     text-align: center;
-}
-
-button {
-    background-color: #ffcc00;
-    border: none;
-    color: black;
-    padding: 15px 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #ff9900;
-}
-
-input {
-    padding: 10px;
-    font-size: 16px;
-    margin: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-#timer {
-    font-size: 24px;
-    margin: 20px;
-    position: relative;
-}
-
-#questionContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-#question {
-    font-size: 24px;
-    margin: 20px;
 }
 
 #speechBubble {
-    background-color: white;
-    color: black;
-    padding: 10px;
-    border-radius: 10px;
     position: absolute;
-    top: -50px;
+    top: 10px; /* Juster denne verdien for å plassere den riktig */
     left: 50%;
     transform: translateX(-50%);
-    width: 200px;
-    text-align: center;
-    font-size: 18px;
-    display: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    display: none; /* Start med å skjule den */
 }
 
 .answerButton {
     display: block;
-    margin: 10px;
+    margin: 10px auto;
     padding: 10px;
-    font-size: 18px;
-    position: absolute;
-    max-width: 200px; /* Legger til en maksimal bredde */
-    white-space: nowrap; /* Forhindrer tekstbryting */
-}
-
-#score {
-    font-size: 24px;
-    margin: 20px;
-    position: relative; /* Legger til relativ posisjonering */
-    z-index: 1; /* Sørger for at poengsummen vises over svaralternativene */
-}
-
-#bestScoreDisplay {
-    font-size: 24px;
-    margin: 20px;
-    color: yellow;
-}
-
-#feedback {
-    font-size: 24px;
-    margin: 20px;
-    color: red;
-    position: absolute; /* Endret til absolutt posisjonering */
-    bottom: 10px; /* Plasserer tilbakemeldingen nederst */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1; /* Sørger for at tilbakemeldingen vises over andre elementer */
-}
-
-#restartButtonInGame {
-    background-color: #ffcc00;
+    width: 80%;
+    background-color: #007bff;
+    color: #fff;
     border: none;
-    color: black;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 20px;
-    cursor: pointer;
     border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s;
+    cursor: pointer;
 }
 
-#restartButtonInGame:hover {
-    background-color: #ff9900;
+.answerButton:hover {
+    background-color: #0056b3;
 }
 
 #scoreTable {
     margin-top: 20px;
-    border-collapse: collapse;
     width: 100%;
+    border-collapse: collapse;
 }
 
 #scoreTable th, #scoreTable td {
@@ -144,6 +57,5 @@ input {
 }
 
 #scoreTable th {
-    background-color: #ffcc00;
-    color: black;
+    background-color: #f2f2f2;
 }
