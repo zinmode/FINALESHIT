@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matte Pacman Spill</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div id="loginSection">
+            <input type="text" id="usernameInput" placeholder="Skriv inn brukernavn">
+            <button id="loginButton">Logg inn</button>
+        </div>
+        <div id="gameSection" style="display: none;">
+            <h1 id="usernameDisplay"></h1>
+            <div id="timer">30</div>
+            <div id="questionContainer">
+                <div id="question"></div>
+                <div id="speechBubble"></div>
+            </div>
+            <div id="answers">
+                <button class="answerButton" id="answer1"></button>
+                <button class="answerButton" id="answer2"></button>
+                <button class="answerButton" id="answer3"></button>
+                <button class="answerButton" id="answer4"></button>
+            </div>
+            <div id="score">Poeng: 0</div>
+            <div id="feedback"></div>
+        </div>
+        <div id="resultSection" style="display: none;">
+            <h1 id="resultMessage"></h1>
+            <p id="finalScore"></p>
+            <button id="restartButton">Start på nytt</button>
+        </div>
+    </div>
+    <audio id="correctSound" src="correct.mp3"></audio>
+    <audio id="wrongSound" src="wrong.mp3"></audio>
+    <script src="game.js"></script>
+</body>
+</html>
