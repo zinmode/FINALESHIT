@@ -221,8 +221,8 @@ function endGame() {
     const categoryScoreKey = `${selectedOperation}Score`;
     const categoryBestScore = localStorage.getItem(categoryScoreKey) || 0;
     if (score > categoryBestScore) {
-        localStorage.setItem(categoryScoreKey, score);
-    }
+        localStorage.setItem(categoryScoreKey,
+}
 
     displayCategoryScores();
 
