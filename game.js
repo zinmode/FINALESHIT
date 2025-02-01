@@ -1,5 +1,6 @@
 const loginButton = document.getElementById('loginButton');
 const usernameInput = document.getElementById('usernameInput');
+const operationSelect = document.getElementById('operationSelect');
 const usernameDisplay = document.getElementById('usernameDisplay');
 const gameSection = document.getElementById('gameSection');
 const loginSection = document.getElementById('loginSection');
@@ -22,7 +23,6 @@ let timer;
 let currentQuestion;
 let bestScore = localStorage.getItem('bestScore') || 0;
 
-const operations = ['multiplikasjon', 'addisjon', 'subtraksjon', 'divisjon', 'blanding'];
 let selectedOperation = 'multiplikasjon'; // Standardvalg
 
 function generateQuestions(operation) {
@@ -92,6 +92,7 @@ const stressMessages = [
 
 loginButton.addEventListener('click', () => {
     const username = usernameInput.value.trim();
+    selectedOperation = operationSelect.value;
     if (username) {
         usernameDisplay.textContent = username;
         loginSection.style.display = 'none';
@@ -105,6 +106,7 @@ function startGame() {
     timeLeft = 30; // Endret til 30 sekunder
     timerDisplay.textContent = timeLeft;
     scoreDisplay.textContent = `Poeng: ${score}`;
+    questions = generateQuestions(selectedOperation);
     timer = setInterval(updateTimer, 1000);
     showNextQuestion();
 }
@@ -165,22 +167,4 @@ function endGame() {
     
     if (score > bestScore) {
         bestScore = score;
-        localStorage.setItem('bestScore', bestScore);
-    }
-
-    let resultMessageText;
-    
-    for (let i = 0; i < complimentsAndInsults.length; i++) {
-        if (score >= complimentsAndInsults[i].threshold) {
-            resultMessageText = complimentsAndInsults[i].message;
-            break;
-        }
-    }
-    resultMessage.textContent = resultMessageText;
-}
-
-restartButton.addEventListener('click', () => {
-    resultSection.style.display = 'none';
-    loginSection.style.display = 'block';
-    alert(`Din beste poengsum er: ${bestScore}`);
-});
+        localStorage.setItem('bestScore',
