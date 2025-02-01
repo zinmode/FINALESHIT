@@ -105,4 +105,84 @@ function startGame() {
     score = 0;
     timeLeft = 30; // Endret til 30 sekunder
     timerDisplay.textContent = timeLeft;
-    scoreDisplay.textContent = `Poeng: ${score
+    scoreDisplay.textContent = `Poeng: ${score}`;
+    questions = generateQuestions(selectedOperation);
+    timer = setInterval(updateTimer, 1000);
+    showNextQuestion();
+}
+
+function updateTimer() {
+    timeLeft--;
+    timerDisplay.textContent = timeLeft;
+    updateSpeechBubble();
+    if (timeLeft <= 0) {
+        clearInterval(timer);
+        endGame();
+    }
+}
+
+function updateSpeechBubble() {
+    speechBubble.style.display = 'block';
+    let message = "";
+    for (let i = 0; i < stressMessages.length; i++) {
+        if (timeLeft <= stressMessages[i].threshold) {
+            message = stressMessages[i].message;
+            break;
+        }
+    }
+    speechBubble.textContent = message;
+}
+
+function showNextQuestion() {
+    currentQuestion = questions[Math.floor(Math.random() * questions.length)];
+    questionDisplay.textContent = currentQuestion.question;
+    answerButtons.forEach((button, index) => {
+        button.textContent = currentQuestion.answers[index];
+        button.style.top = `${Math.random() * 80 + 10}%`;
+        button.style.left = `${Math.random() * 80 + 10}%`;
+        button.onclick = () => checkAnswer(currentQuestion.answers[index]);
+    });
+}
+
+function checkAnswer(answer) {
+    if (answer === currentQuestion.correct) {
+        score += 10;
+        feedback.textContent = "Riktig!";
+        feedback.style.color = "green";
+        correctSound.play();
+    } else {
+        score -= 5;
+        feedback.textContent = "Feil!";
+        feedback.style.color = "red";
+        wrongSound.play();
+    }
+    scoreDisplay.textContent = `Poeng: ${score}`;
+    showNextQuestion();
+}
+
+function endGame() {
+    gameSection.style.display = 'none';
+    resultSection.style.display = 'block';
+    finalScore.textContent = `Din endelige poengsum er: ${score}`;
+    
+    if (score > bestScore) {
+        bestScore = score;
+        localStorage.setItem('bestScore', bestScore);
+    }
+
+    let resultMessageText;
+    
+    for (let i = 0; i < complimentsAndInsults.length; i++) {
+        if (score >= complimentsAndInsults[i].threshold) {
+            resultMessageText = complimentsAndInsults[i].message;
+            break;
+        }
+    }
+    resultMessage.textContent = resultMessageText;
+}
+
+restartButton.addEventListener('click', () => {
+    resultSection.style.display = 'none';
+    loginSection.style.display = 'block';
+    alert(`Din beste poengsum er: ${bestScore}`);
+});
