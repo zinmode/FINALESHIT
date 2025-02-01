@@ -49,7 +49,7 @@ let selectedOperation = 'multiplikasjon'; // Standardvalg
 
 function generateQuestions(operation, difficulty) {
     const questions = [];
-    const maxNumber = 10 + difficulty * 5; // Øker vanskelighetsgraden ved å øke maksnummeret
+    const maxNumber = 20 + difficulty * 10; // Øker vanskelighetsgraden ved å øke maksnummeret
     for (let i = 1; i <= maxNumber; i++) {
         for (let j = 1; j <= maxNumber; j++) {
             let question, correctAnswer;
@@ -61,6 +61,10 @@ function generateQuestions(operation, difficulty) {
                 case 'subtraksjon':
                     question = `${i} - ${j}`;
                     correctAnswer = i - j;
+                    break;
+                case 'multiplikasjon':
+                    question = `${i} * ${j}`;
+                    correctAnswer = i * j;
                     break;
                 case 'divisjon':
                     if (j !== 0) {
@@ -197,14 +201,19 @@ function checkAnswer(answer) {
         feedback.textContent = "Riktig!";
         feedback.style.color = "green";
         correctSound.play();
+        questionDisplay.classList.add('correct');
     } else {
         score -= 5;
         feedback.textContent = "Feil!";
         feedback.style.color = "red";
         wrongSound.play();
+        questionDisplay.classList.add('wrong');
     }
     scoreDisplay.textContent = `Poeng: ${score}`;
-    showNextQuestion();
+    setTimeout(() => {
+        questionDisplay.classList.remove('correct', 'wrong');
+        showNextQuestion();
+    }, 500);
 }
 
 function endGame() {
@@ -213,16 +222,8 @@ function endGame() {
     finalScore.textContent = `Din endelige poengsum er: ${score}`;
     
     if (score > bestScore) {
-        bestScore = score;
-        localStorage.setItem('bestScore', bestScore);
-    }
-
-    // Lagre poengsum for valgt operasjon
-    const categoryScoreKey = `${selectedOperation}Score`;
-    const categoryBestScore = localStorage.getItem(categoryScoreKey) || 0;
-    if (score > categoryBestScore) {
-        localStorage.setItem(categoryScoreKey, score);
-       }
+        bestScore = score
+           }
 
     displayCategoryScores();
 
