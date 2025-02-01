@@ -222,7 +222,7 @@ function endGame() {
     const categoryBestScore = localStorage.getItem(categoryScoreKey) || 0;
     if (score > categoryBestScore) {
         localStorage.setItem(categoryScoreKey, score);
-         }
+    }
 
     displayCategoryScores();
 
